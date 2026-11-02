@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Studio Beleza · Manu e Mylena · Miguel Pereira</title>
+  <meta name="description" content="Esmalteria em Miguel Pereira – RJ. Agende seu horário online com a Manu ou a Mylena.">
+  <meta name="theme-color" content="#fffcfa">
+  <meta property="og:title" content="Studio Beleza · Manu e Mylena">
+  <meta property="og:description" content="Reserve seu horário e tenha um momento especial de autocuidado.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="50" fill="#f4e4e2"/>
+    <text x="50" y="64" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="46" fill="#9a4457" letter-spacing="-4">SB</text>
+  </symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2a9.9 9.9 0 0 0-8.5 15l-1.4 5.1 5.2-1.36A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.09.81.83-3-.2-.31a8.2 8.2 0 1 1 6.94 3.83Zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.55.12-.16.25-.63.8-.78.97-.14.16-.29.18-.53.06a6.7 6.7 0 0 1-3.32-2.9c-.25-.43.25-.4.72-1.33.08-.16.04-.3-.02-.42l-.75-1.8c-.2-.48-.4-.4-.55-.41h-.47a.9.9 0 0 0-.65.3 2.7 2.7 0 0 0-.85 2.02 4.8 4.8 0 0 0 1 2.52 10.9 10.9 0 0 0 4.17 3.69c1.55.67 2.16.73 2.94.61.47-.07 1.46-.6 1.66-1.17.2-.58.2-1.07.14-1.17-.06-.11-.22-.17-.47-.29Z"/></symbol>
+  <symbol id="i-voltar" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-fechar" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-prox" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+</svg>
+
+<header class="topo" id="topo">
+  <div class="wrap">
+    <a class="marca" href="#inicio" aria-label="Studio Beleza, início">
+      <svg aria-hidden="true"><use href="#logo"/></svg>
+      <span>Studio Beleza</span>
+    </a>
+    <nav class="menu" aria-label="Principal">
+      <a href="#servicos">Serviços</a>
+      <a href="#manu-e-mylena">Manu e Mylena</a>
+      <a href="#depoimentos" id="link-depoimentos" hidden>Depoimentos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <button class="btn btn--pequeno" data-agendar>Agendar</button>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Sua beleza merece esse momento.</h1>
+        <p class="sub">Reserve seu horário e tenha um momento especial de autocuidado.</p>
+        <div class="acoes">
+          <button class="btn btn--destaque" data-agendar>AGENDAR MEU HORÁRIO</button>
+          <p class="local">Esmalteria em <span data-cidade>Miguel Pereira – RJ</span>, com a Manu e a Mylena.</p>
+        </div>
+      </div>
+      <div class="arco">
+        <!-- Coloque uma foto do estúdio em public/img/hero.jpg -->
+        <img src="img/hero.jpg" alt="Unhas feitas no Studio Beleza" onerror="this.remove()">
+        <div class="monograma" aria-hidden="true">SB</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao secao--tom" id="servicos">
+    <div class="wrap">
+      <header>
+        <h2>Serviços</h2>
+        <p>Toque em um serviço para ver os horários livres.</p>
+      </header>
+      <ul class="cardapio" id="lista-servicos">
+        <li class="carregando">Carregando serviços</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao" id="manu-e-mylena">
+    <div class="wrap">
+      <header>
+        <h2>Manu e Mylena</h2>
+        <p>Cada uma com a sua agenda. Escolha com quem prefere ser atendida ou deixe com a primeira que estiver livre.</p>
+      </header>
+      <div class="dupla" id="lista-profissionais"></div>
+    </div>
+  </section>
+
+  <section class="secao secao--tom" id="depoimentos" hidden>
+    <div class="wrap">
+      <header><h2>Quem já passou por aqui</h2></header>
+      <div class="depoimentos" id="lista-depoimentos"></div>
+    </div>
+  </section>
+
+  <section class="secao" id="contato">
+    <div class="wrap contato">
+      <div>
+        <header><h2>Como chegar</h2></header>
+        <dl>
+          <div><dt>Endereço</dt><dd id="endereco">Miguel Pereira – RJ</dd></div>
+          <div><dt>Atendimento</dt><dd>Com hora marcada. Veja os horários livres no agendamento.</dd></div>
+          <div><dt>Instagram</dt><dd><a id="insta-estudio" href="https://instagram.com/studiobelezaesmalteria" target="_blank" rel="noopener">@studiobelezaesmalteria</a></dd></div>
+        </dl>
+      </div>
+      <div class="botoes" id="botoes-contato">
+        <button class="btn" data-agendar>Agendar meu horário</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="wrap">
+    <span>© <span id="ano"></span> Studio Beleza · Manu e Mylena</span>
+    <a href="admin.html">Área das profissionais</a>
+  </div>
+</footer>
+
+<div class="zap" id="zap">
+  <div class="zap-menu" id="zap-menu" role="menu"></div>
+  <button type="button" aria-label="Falar pelo WhatsApp" aria-expanded="false" aria-controls="zap-menu">
+    <svg aria-hidden="true"><use href="#i-zap"/></svg>
+  </button>
+</div>
+
+<!-- ===================== AGENDAMENTO ===================== -->
+<div class="agenda" id="agenda" aria-hidden="true">
+  <div class="painel" role="dialog" aria-modal="true" aria-labelledby="ag-titulo">
+    <div class="painel-topo">
+      <div class="linha">
+        <button class="icone" id="ag-voltar" aria-label="Voltar" hidden><svg><use href="#i-voltar"/></svg></button>
+        <h2 id="ag-titulo">Escolha o serviço</h2>
+        <button class="icone" id="ag-fechar" aria-label="Fechar"><svg><use href="#i-fechar"/></svg></button>
+      </div>
+      <div class="passos" id="ag-passos" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+      <p class="passo-rotulo" id="ag-rotulo">Etapa 1 de 5</p>
+    </div>
+    <div class="painel-corpo" id="ag-corpo" tabindex="-1"></div>
+    <div class="painel-rodape" id="ag-rodape" hidden>
+      <button class="btn" id="ag-continuar">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/site.js"></script>
+</body>
+</html>

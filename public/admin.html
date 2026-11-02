@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>Painel · Studio Beleza</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="adm">
+
+<!-- Login -->
+<section class="login" id="tela-login" hidden>
+  <form class="login-caixa" id="form-login">
+    <svg class="login-logo" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="50" fill="#f4e4e2"/><text x="50" y="64" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="46" fill="#9a4457" letter-spacing="-4">SB</text></svg>
+    <h1>Área das profissionais</h1>
+    <div class="alerta" id="login-erro" role="alert" hidden></div>
+    <div class="campo"><label for="l-email">E-mail</label><input id="l-email" type="email" autocomplete="username" required></div>
+    <div class="campo"><label for="l-senha">Senha</label><input id="l-senha" type="password" autocomplete="current-password" required></div>
+    <button class="btn" type="submit">Entrar</button>
+    <a class="voltar-site" href="./">Voltar ao site</a>
+  </form>
+</section>
+
+<!-- Painel -->
+<div class="app" id="tela-app" hidden>
+  <header class="adm-topo">
+    <a class="marca" href="./" title="Abrir o site">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="50" fill="#f4e4e2"/><text x="50" y="64" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="46" fill="#9a4457" letter-spacing="-4">SB</text></svg>
+      <span>Painel</span>
+    </a>
+    <nav class="abas" id="abas" aria-label="Seções do painel">
+      <a href="#agenda">Agenda</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#horarios">Horários e folgas</a>
+      <a href="#profissionais">Profissionais</a>
+      <a href="#estudio">Estúdio</a>
+    </nav>
+    <button class="btn btn--claro btn--pequeno" id="sair">Sair</button>
+  </header>
+  <div class="aviso-topo" id="aviso-topo" hidden></div>
+  <main class="adm-corpo" id="conteudo"></main>
+</div>
+
+<dialog class="modal" id="modal">
+  <form method="dialog" class="modal-caixa" id="modal-form">
+    <div class="modal-topo"><h2 id="modal-titulo"></h2><button class="icone" value="cancelar" aria-label="Fechar">✕</button></div>
+    <div class="alerta" id="modal-erro" role="alert" hidden></div>
+    <div id="modal-corpo"></div>
+    <div class="modal-acoes" id="modal-acoes"></div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>
