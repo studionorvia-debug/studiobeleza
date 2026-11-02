@@ -112,8 +112,40 @@ async function enviarWhatsApp(tipo, ag) {
   if (!r.ok) throw new Error(`WhatsApp: ${await r.text()}`);
 }
 
+// Aviso no WhatsApp da PROFISSIONAL (CallMeBot, gratuito).
+// Cada profissional ativa uma vez e recebe um código (apikey), salvo no painel.
+export async function enviarCallMeBot(telefone, apikey, texto) {
+  const url = `https://api.callmebot.com/whatsapp.php?${new URLSearchParams({ phone: `+${telefone}`, text: texto, apikey })}`;
+  const r = await fetch(url);
+  const corpo = (await r.text()).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  if (!r.ok || /invalid|error|not allowed/i.test(corpo)) throw new Error(`CallMeBot: ${corpo.slice(0, 200) || r.status}`);
+}
+
+const AVISOS = {
+  confirmacao: "📅 *Novo agendamento*",
+  alteracao: "🔄 *Agendamento remarcado*",
+  cancelamento: "❌ *Agendamento cancelado*",
+};
+async function avisarProfissional(tipo, ag) {
+  const p = ag.profissional;
+  if (!AVISOS[tipo] || !p?.whatsapp || !p?.callmebot_apikey) return;
+  const c = ag.cliente;
+  const d = c.whatsapp.replace(/^55/, "");
+  const texto = [
+    AVISOS[tipo],
+    "",
+    `*Cliente:* ${c.nome}`,
+    `*WhatsApp:* (${d.slice(0, 2)}) ${d.slice(2, -4)}-${d.slice(-4)} wa.me/${c.whatsapp}`,
+    `*Serviço:* ${ag.servico_nome} (${ag.duracao_min} min)`,
+    `*Quando:* ${fmtDataLonga(new Date(ag.inicio))} às ${fmtHora(new Date(ag.inicio))}`,
+    ag.observacoes ? `*Obs.:* ${ag.observacoes}` : null,
+    ag.origem === "painel" ? "_Feito pelo painel_" : null,
+  ].filter((l) => l !== null).join("\n");
+  await enviarCallMeBot(p.whatsapp, p.callmebot_apikey, texto);
+}
+
 /** Envia por todos os canais configurados. Falhas são registradas, não interrompem. */
 export async function notificar(tipo, ag, cfg) {
-  const res = await Promise.allSettled([enviarEmail(tipo, ag, cfg), enviarWhatsApp(tipo, ag)]);
+  const res = await Promise.allSettled([enviarEmail(tipo, ag, cfg), enviarWhatsApp(tipo, ag), avisarProfissional(tipo, ag)]);
   for (const r of res) if (r.status === "rejected") console.error(tipo, r.reason?.message);
 }

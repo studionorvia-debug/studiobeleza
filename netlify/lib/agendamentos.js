@@ -2,7 +2,7 @@ import { db, erro } from "./util.js";
 import { criarEvento, atualizarEvento, excluirEvento } from "./google.js";
 import { notificar } from "./notificar.js";
 
-export const CAMPOS_PROF = "id,nome,slug,whatsapp,google_refresh_token,google_calendar_id,google_status";
+export const CAMPOS_PROF = "id,nome,slug,whatsapp,callmebot_apikey,google_refresh_token,google_calendar_id,google_status";
 
 export async function carregarCompleto(id) {
   const { data, error } = await db.from("agendamentos")

@@ -512,6 +512,16 @@
             <div class="campo"><label>Link da foto</label><input name="foto_url" type="url" value="${esc(p.foto_url)}"></div>
             <div class="campo"><label>Apresentação</label><textarea name="bio">${esc(p.bio)}</textarea></div>
             <label class="check"><input type="checkbox" name="ativo" ${p.ativo ? "checked" : ""}> Aparece no site e recebe agendamentos</label>
+            <div class="google" style="margin-bottom:1rem">
+              <h3>Aviso no WhatsApp</h3>
+              <p>${p.aviso_whatsapp
+                ? `Ativo. A ${esc(p.nome)} recebe uma mensagem a cada novo agendamento, remarcação ou cancelamento.`
+                : `Para a ${esc(p.nome)} receber uma mensagem a cada agendamento, ela precisa ativar o CallMeBot no celular dela (veja o LEIA-ME) e colar aqui o código que receber.`}</p>
+              <div class="campo"><label>Código do CallMeBot (apikey)</label>
+                <input name="callmebot_apikey" inputmode="numeric" autocomplete="off" placeholder="${p.aviso_whatsapp ? "Já cadastrado. Preencha só para trocar." : "Ex.: 1234567"}"></div>
+              ${p.aviso_whatsapp ? `<label class="check"><input type="checkbox" name="remover_aviso"> Desligar os avisos</label>` : ""}
+              <button class="btn btn--claro btn--pequeno" type="button" data-teste="${p.id}" ${p.aviso_whatsapp ? "" : "disabled"}>Enviar mensagem de teste</button>
+            </div>
             <button class="btn btn--pequeno" type="submit">Salvar</button>
           </form>
           <div>
@@ -534,8 +544,17 @@
     $$("form[data-prof]").forEach((f) => f.addEventListener("submit", async (e) => {
       e.preventDefault();
       const v = Object.fromEntries(new FormData(f));
-      try { await api("salvar_profissional", { ...v, id: f.dataset.prof, ativo: !!v.ativo }); toast("Dados salvos."); }
-      catch (err) { toast(err.message); }
+      try {
+        await api("salvar_profissional", { ...v, id: f.dataset.prof, ativo: !!v.ativo, remover_aviso: !!v.remover_aviso });
+        toast("Dados salvos.");
+        if (v.callmebot_apikey || v.remover_aviso) verProfissionais();
+      } catch (err) { toast(err.message); }
+    }));
+    $$("[data-teste]").forEach((b) => (b.onclick = async () => {
+      b.disabled = true; b.textContent = "Enviando…";
+      try { await api("testar_whatsapp", { profissional_id: b.dataset.teste }); toast("Teste enviado. Confira o WhatsApp em alguns segundos."); }
+      catch (e) { toast(e.message); }
+      finally { b.disabled = false; b.textContent = "Enviar mensagem de teste"; }
     }));
     $$("[data-con]").forEach((b) => (b.onclick = async () => {
       try { const { url } = await api("google_url", { profissional_id: b.dataset.con }); location.href = url; }

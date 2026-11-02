@@ -13,6 +13,7 @@ create table if not exists profissionais (
   slug                  text unique not null,
   email                 text unique,                 -- e-mail de login no painel (minúsculo)
   whatsapp              text,                        -- só números, com 55 + DDD
+  callmebot_apikey      text,                        -- código do CallMeBot (aviso no WhatsApp da profissional)
   instagram             text,
   bio                   text,
   foto_url              text,
@@ -151,3 +152,6 @@ on conflict (chave) do nothing;
 -- e-mail à sua profissional (sempre em letras minúsculas):
 -- update profissionais set email = 'email.da.manu@gmail.com'   where slug = 'manu';
 -- update profissionais set email = 'email.da.mylena@gmail.com' where slug = 'mylena';
+
+-- Se o banco já tinha sido criado antes desta versão, rode só esta linha:
+alter table profissionais add column if not exists callmebot_apikey text;

@@ -4,6 +4,7 @@ import {
 } from "../lib/util.js";
 import { calcular } from "../lib/disponibilidade.js";
 import { googleConfigurado, urlAutorizacao, desconectar, conflitosGoogle, conectado } from "../lib/google.js";
+import { enviarCallMeBot } from "../lib/notificar.js";
 import {
   CAMPOS_PROF, carregarCompleto, salvarCliente, inserir, aposCriar, aposAlterar, aposCancelar,
 } from "../lib/agendamentos.js";
@@ -33,6 +34,7 @@ const profPublica = (p) => ({
   id: p.id, nome: p.nome, slug: p.slug, email: p.email, whatsapp: p.whatsapp, instagram: p.instagram,
   bio: p.bio, foto_url: p.foto_url, ativo: p.ativo, ordem: p.ordem,
   google: { conectado: conectado(p), email: p.google_email, status: p.google_status },
+  aviso_whatsapp: !!p.callmebot_apikey,
 });
 
 async function verificarConflitoGoogle(prof, inicio, fim, ignorarEventId, forcar) {
@@ -248,12 +250,27 @@ const ACOES = {
 
   // ---------- profissionais e Google ----------
   async salvar_profissional(b) {
-    const { error } = await db.from("profissionais").update({
+    const reg = {
       nome: limpar(b.nome, 60), bio: limpar(b.bio, 600) || null, foto_url: limpar(b.foto_url, 500) || null,
       whatsapp: normalizarWhats(b.whatsapp) || null, instagram: limpar(b.instagram, 60).replace(/^@/, "") || null,
       ativo: b.ativo !== false, ordem: parseInt(b.ordem, 10) || 0,
-    }).eq("id", b.id);
+    };
+    const chave = limpar(b.callmebot_apikey, 40).replace(/\s/g, "");
+    if (chave) reg.callmebot_apikey = chave;
+    if (b.remover_aviso) reg.callmebot_apikey = null;
+    const { error } = await db.from("profissionais").update(reg).eq("id", b.id);
     if (error) throw error;
+    return ok();
+  },
+  async testar_whatsapp(b) {
+    const { data: p } = await db.from("profissionais").select("nome,whatsapp,callmebot_apikey").eq("id", b.profissional_id).maybeSingle();
+    if (!p?.whatsapp) return erro("Cadastre o WhatsApp da profissional primeiro.");
+    if (!p.callmebot_apikey) return erro("Cole o código do CallMeBot e salve antes de testar.");
+    try {
+      await enviarCallMeBot(p.whatsapp, p.callmebot_apikey, `✅ Teste do Studio Beleza: os avisos de agendamento vão chegar aqui, ${p.nome}.`);
+    } catch (e) {
+      return erro(`O CallMeBot não enviou: confira o número e o código. (${e.message.slice(0, 120)})`);
+    }
     return ok();
   },
   async google_url(b) {

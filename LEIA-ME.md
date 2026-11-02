@@ -66,6 +66,18 @@ A agenda só abre no site depois que houver serviços e horários cadastrados.
 - Fotos das profissionais e dos serviços: cole o link da imagem no painel.
 - O logo no topo é uma recriação do monograma SB. Se quiser usar o arquivo original, troque o `<symbol id="logo">` no `index.html`.
 
+## Aviso no WhatsApp da profissional
+A cada novo agendamento (e também quando um horário é remarcado ou cancelado), a profissional escolhida recebe no WhatsApp dela uma mensagem com o nome e o WhatsApp da cliente, o serviço, a data e o horário. O envio usa o CallMeBot, que é gratuito.
+
+Cada profissional ativa uma vez, no próprio celular:
+1. Entre em callmebot.com, abra a página da **WhatsApp API** e veja o número atual do CallMeBot (ele muda de tempos em tempos).
+2. Salve esse número nos contatos do celular.
+3. Mande para ele, pelo WhatsApp, a mensagem que o site indicar (hoje é `I allow callmebot to send me messages`).
+4. Em alguns minutos chega uma resposta com o **apikey**, um código só de números.
+5. No painel, em **Profissionais**, cole o código no campo **Código do CallMeBot**, clique em **Salvar** e depois em **Enviar mensagem de teste**.
+
+O aviso vai para o número cadastrado no campo WhatsApp da profissional, então ele precisa ser o mesmo celular que fez a ativação. O CallMeBot é um serviço gratuito e pode atrasar alguns minutos em horários de pico; o agendamento é gravado mesmo que o aviso falhe.
+
 ## Notificações
 | Momento | E-mail (Resend) | Google Agenda | WhatsApp |
 |---|---|---|---|
